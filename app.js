@@ -82,9 +82,7 @@ $('button').click((e) => {
     "url": `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=dog+friendly&categories=restaurants,bars&open_now=true&sort_by=distance&location=${window.searchText}`,
     "method": "GET",
     "headers": {
-      "authorization": "Bearer 80LIgTKphcU7oWrMtt4e9TahnIrn-P3sMkhDw1B3CW25GdSHZB4-PU-dM_hRIwx3AzT3SUPoXo0fRtNadtudHoxBrjGTZr_Wgavv6fqQ5ZRoH79m9HaXPBjrnX-pWXYx",
-      "cache-control": "no-cache",
-      "postman-token": "3f23d8c3-ce48-a224-50c0-14b9094948fc"
+      "authorization": "Bearer Ye-91IGpkqa8Awzi7I2IaNGtfBBICvZjqIRSK-I41kv-GLafsgdSQCh5n7LRZXwKlZDD4TGCTksDCPXg94VNDqyAWREdlje_XFYdjgFXNs8bSkDS5dFmY7wRAoWyYnYx"
     }
   }
 
