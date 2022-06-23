@@ -75,8 +75,7 @@ $('button').click((e) => {
   // Get input text to use for search
   window.searchText = $('#location').val();
 
-  // Define the settings for the API call
-//`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=dog+friendly&categories=restaurants,bars&open_now=true&sort_by=distance&location=${window.searchText}`,
+  // Define the settings for the API call //`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=dog+friendly&categories=restaurants,bars&open_now=true&sort_by=distance&location=${window.searchText}`,
   var settings = {
     "async": true,
     "crossDomain": true,
