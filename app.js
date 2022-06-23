@@ -80,7 +80,7 @@ $('button').click((e) => {
   var settings = {
     "async": true,
     "crossDomain": true,
-    "url": `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location={window.searchText}`,
+    "url": `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=${window.searchText}`,
     "method": "GET",
     "headers": {
       "authorization": "Bearer Ye-91IGpkqa8Awzi7I2IaNGtfBBICvZjqIRSK-I41kv-GLafsgdSQCh5n7LRZXwKlZDD4TGCTksDCPXg94VNDqyAWREdlje_XFYdjgFXNs8bSkDS5dFmY7wRAoWyYnYx"
