@@ -146,15 +146,15 @@ map.addLayer({
 // Add the Mapbox Terrain v2 vector tileset. Read more about
 // the structure of data in this tileset in the documentation:
 // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
-map.addSource('services', {
+map.addSource('contours', {
 'type': 'geojson',
 'data': parks
 });
 
 map. addLayer({
-'id': 'services',
+'id': 'contours',
 'type': 'circle',
-'source': 'services',
+'source': 'contours',
 'layout': {
 // Make the layer visible by default.
 'visibility': 'visible'
