@@ -55,7 +55,7 @@ color: #ffffff;
 background: #3074a4;
 }
 </style>
-<h1>Welcome to Maps8</h1>
+<h1>Welcome to Maps9</h1>
 <nav id="menu"></nav>
 <div id="map"></div>
  
@@ -234,14 +234,15 @@ layers.appendChild(link);
   }
   const feature = features[0];
 
-  /* Create a popup, specify its options and properties, and add it to the map.  removed from above /script: }); */
+  /* Create a popup, specify its options and properties, and add it to the map.  */
   const popup = new mapboxgl.Popup({ offset: [0, -15] })
   .setLngLat(feature.geometry.coordinates)
   .setHTML(
     `<h3>${feature.properties.phone}</h3><p>${feature.properties.address}</p>`
   )
   .addTo(map);
-
+  
+});
 </script>
  
 </body>
