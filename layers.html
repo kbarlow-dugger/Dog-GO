@@ -66,7 +66,7 @@ const map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/streets-v11',
 zoom: 15,
-center: [-77.049766, 38.900772]
+center: [-77.034084142948,38.909671288923]
 });
 
 const stores = 
@@ -78,22 +78,6 @@ const stores =
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.049766, 38.900772]},'properties': {'phoneFormatted': '(202) 507-8357','phone': '2025078357','address': '2221 I St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 22nd St NW','postalCode': '20037','state': 'D.C.'}},
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }},
-
-]
-};
-
-/**
-* Assign a unique id to each store. You'll use this `id`
-* later to associate each point on the map with a listing
-* in the sidebar.
-*/
-stores.features.forEach((store, i) => {
-store.properties.id = i;
-});
-
-const parks = 
-
-{'type': 'FeatureCollection','features': [
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.0672, 38.90516896]},'properties': {'phoneFormatted': '(202) 337-9338','phone': '2023379338','address': '3333 M St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 34th St NW','postalCode': '20007','state': 'D.C.'}},
 
@@ -109,8 +93,8 @@ const parks =
 * later to associate each point on the map with a listing
 * in the sidebar.
 */
-parks.features.forEach((park, i) => {
-park.properties.id = i;
+stores.features.forEach((store, i) => {
+store.properties.id = i;
 });
  
 // Wait until the map has finished loading.
@@ -147,22 +131,26 @@ map.addLayer({
 // the structure of data in this tileset in the documentation:
 // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
 map.addSource('contours', {
-'type': 'geojson',
-'data': parks
+type: 'vector',
+url: 'mapbox://mapbox.mapbox-terrain-v2'
 });
 
-map. addLayer({
+map.addLayer({
 'id': 'contours',
-'type': 'circle',
+'type': 'line',
 'source': 'contours',
+'source-layer': 'contour',
 'layout': {
 // Make the layer visible by default.
-'visibility': 'visible'
+'visibility': 'visible',
+'line-join': 'round',
+'line-cap': 'round'
 },
 'paint': {
-'circle-radius': 12,
-'circle-color': 'rgba(21,18,171,1)'
-},
+'line-color': '#877b59',
+'line-width': 1
+}
+});
 });
  
 // After the last frame rendered before the map enters an "idle" state.
