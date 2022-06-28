@@ -55,12 +55,13 @@ color: #ffffff;
 background: #3074a4;
 }
 </style>
-<h1>Welcome to Maps7</h1>
+<h1>Welcome to Maps8</h1>
 <nav id="menu"></nav>
 <div id="map"></div>
  
 <script>
-	mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
 
 const map = new mapboxgl.Map({
 container: 'map',
@@ -220,8 +221,10 @@ layers.appendChild(link);
 }
 });
 
-   /* Add an event listener that runs when a user clicks on the map element. */
-map.on('click', (event) => {
+
+  /* ******* FUNCTIONALITY FOR POP-UPS OVER MAP ITEMS ***********************/
+  /* Add an event listener that runs when a user clicks on the map element. */
+  map.on('click', (event) => {
   // If the user clicked on one of your markers, get its information.
   const features = map.queryRenderedFeatures(event.point, {
     layers: ['museums','contours'] // replace with your layer name
@@ -231,15 +234,14 @@ map.on('click', (event) => {
   }
   const feature = features[0];
 
-  /* Create a popup, specify its options and properties, and add it to the map.  */
+  /* Create a popup, specify its options and properties, and add it to the map.  removed from above /script: }); */
   const popup = new mapboxgl.Popup({ offset: [0, -15] })
   .setLngLat(feature.geometry.coordinates)
   .setHTML(
     `<h3>${feature.properties.phone}</h3><p>${feature.properties.address}</p>`
   )
   .addTo(map);
-  
-});
+
 </script>
  
 </body>
