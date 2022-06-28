@@ -166,7 +166,7 @@ border-bottom-color: #91c949;
 <body>
 <div class="sidebar">
 <div class="heading">
-<h1>THE locations</h1>
+<h1>THE NEW locations</h1>
 </div>
 <div id="listings" class="listings"></div>
 </div>
@@ -243,10 +243,11 @@ map.addSource('places', {
 'data': stores
 });
 
+/* 
 map.addSource('places', {
 'type': 'geojson',
 'data': parks
-});
+}); */
 
  
 /**
@@ -255,7 +256,7 @@ map.addSource('places', {
 * - The markers onto the map
 */
 buildLocationList(stores);
-buildLocationList(parks);
+/* buildLocationList(parks); */
 addMarkers();
 });
  
