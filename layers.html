@@ -79,6 +79,22 @@ const stores =
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }},
 
+]
+};
+
+/**
+* Assign a unique id to each store. You'll use this `id`
+* later to associate each point on the map with a listing
+* in the sidebar.
+*/
+stores.features.forEach((store, i) => {
+store.properties.id = i;
+});
+
+const parks = 
+
+{'type': 'FeatureCollection','features': [
+
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.0672, 38.90516896]},'properties': {'phoneFormatted': '(202) 337-9338','phone': '2023379338','address': '3333 M St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 34th St NW','postalCode': '20007','state': 'D.C.'}},
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.002583742142, 38.887041080933]},'properties': {'phoneFormatted': '(202) 547-9338','phone': '2025479338','address': '221 Pennsylvania Ave SE','city': 'Washington DC','country': 'United States','crossStreet': 'btwn 2nd & 3rd Sts. SE','postalCode': '20003','state': 'D.C.'}},
@@ -93,8 +109,8 @@ const stores =
 * later to associate each point on the map with a listing
 * in the sidebar.
 */
-stores.features.forEach((store, i) => {
-store.properties.id = i;
+parks.features.forEach((park, i) => {
+park.properties.id = i;
 });
  
 // Wait until the map has finished loading.
@@ -130,27 +146,23 @@ map.addLayer({
 // Add the Mapbox Terrain v2 vector tileset. Read more about
 // the structure of data in this tileset in the documentation:
 // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
-map.addSource('contours', {
-type: 'vector',
-url: 'mapbox://mapbox.mapbox-terrain-v2'
+map.addSource('services', {
+'type': 'geojson',
+'data': parks
 });
 
-map.addLayer({
-'id': 'contours',
-'type': 'line',
-'source': 'contours',
-'source-layer': 'contour',
+map. addLayer({
+'id': 'services',
+'type': 'circle',
+'source': 'services',
 'layout': {
 // Make the layer visible by default.
-'visibility': 'visible',
-'line-join': 'round',
-'line-cap': 'round'
+'visibility': 'visible'
 },
 'paint': {
-'line-color': '#877b59',
-'line-width': 1
-}
-});
+'circle-radius': 12,
+'circle-color': 'rgba(21,18,171,1)'
+},
 });
  
 // After the last frame rendered before the map enters an "idle" state.
