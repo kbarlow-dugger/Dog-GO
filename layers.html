@@ -55,7 +55,7 @@ color: #ffffff;
 background: #3074a4;
 }
 </style>
-<h1>Welcome to Maps2</h1>
+<h1>Welcome to Maps4</h1>
 <nav id="menu"></nav>
 <div id="map"></div>
  
@@ -65,7 +65,7 @@ background: #3074a4;
 const map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/streets-v11',
-zoom: 11,
+zoom: 13,
 center: [-77.034084142948,38.909671288923]
 });
 
@@ -131,24 +131,21 @@ map.addLayer({
 // the structure of data in this tileset in the documentation:
 // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
 map.addSource('contours', {
-type: 'vector',
-url: 'mapbox://mapbox.mapbox-terrain-v2'
+'type': 'geojson',
+'data': stores
 });
 
 map.addLayer({
 'id': 'contours',
-'type': 'line',
+'type': 'circle',
 'source': 'contours',
-'source-layer': 'contour',
 'layout': {
 // Make the layer visible by default.
 'visibility': 'visible',
-'line-join': 'round',
-'line-cap': 'round'
 },
 'paint': {
-'line-color': '#877b59',
-'line-width': 1
+'circle-radius': 15,
+'circle-color': 'rgba(12,24,179,1)'
 }
 });
 });
