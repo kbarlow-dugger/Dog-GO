@@ -69,10 +69,22 @@
 	HeLLO again dog world.
 	<div class='sidebar'>
 		<div class='heading'>
-			<h1>View locations</h1>
+			<h1>Pet-Friendly Restaurants</h1>
 		</div>
 		<div id='listings' class='listings'></div>
 	</div>
 	<div id="map" class="map"></div>
+	
+	<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
+
+	const map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/light-v10',
+		center: [-77.034084, 38.909671],
+		zoom: 13,
+		scrollZoom: false
+	});
+	</script>	
   </body>
 </html>
