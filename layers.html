@@ -224,7 +224,7 @@ layers.appendChild(link);
 map.on('click', (event) => {
   // If the user clicked on one of your markers, get its information.
   const features = map.queryRenderedFeatures(event.point, {
-    layers: ['museums'] // replace with your layer name
+    layers: ['museums','contours'] // replace with your layer name
   });
   if (!features.length) {
     return;
