@@ -149,6 +149,8 @@ zoom: 11,
 center: [-77.034084142948,38.909671288923]
 });
 
+map.addControl(new mapboxgl.NavigationControl());
+
 const food = 
 
 {'type': 'FeatureCollection','features': [
@@ -329,7 +331,7 @@ map.on('load', () => {
 			'source': 'point', // reference the data source
 			'layout': {
 			'icon-image': 'cat', // reference the image
-			'icon-size': 0.25
+			'icon-size': 0.35
 			}
 		});
 	});
