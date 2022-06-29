@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Pet Friendly Roadmap</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="initial-scale=1,maximum-scale=1">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
 <style>
@@ -145,7 +145,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxM
 const map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/streets-v11',
-zoom: 13,
+zoom: 11,
 center: [-77.034084142948,38.909671288923]
 });
 
@@ -202,14 +202,16 @@ dogpark.properties.id = i;
  
 // Wait until the map has finished loading.
 map.on('load', () => {
-// Add a custom vector tileset source. This tileset contains
-// point features representing museums. Each feature contains
-// three properties. For example:
-// {
-//     alt_name: "Museo Arqueologico",
+
+map.loadImage('https://kbarlow-dugger.github.io/Dog-GO/marker.png',(error, image) => {
+if (error) throw error;
+
+// Add the image to the map style.
+map.addImage('green-marker', image);
+
+// Add Pet Friendly Restaurants data 
 //     name: "Museo Inka",
-//     tourism: "museum"
-// }
+//     description: "museum"
 
 map.addSource('pet friendly restaurants', {
 'type': 'geojson',
@@ -230,9 +232,7 @@ map.addLayer({
 },
 });
  
-// Add the Mapbox Terrain v2 vector tileset. Read more about
-// the structure of data in this tileset in the documentation:
-// https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+// Add the Pet Services items 
 map.addSource('pet services', {
 'type': 'geojson',
 'data': petsvcs
@@ -240,21 +240,16 @@ map.addSource('pet services', {
 
 map.addLayer({
 'id': 'pet services',
-'type': 'circle',
+'type': 'symbol',
 'source': 'pet services',
 'layout': {
 // Make the layer visible by default.
 'visibility': 'visible',
+'icon-image': 'green-marker',
 },
-'paint': {
-'circle-radius': 15,
-'circle-color': 'rgba(12,24,179,1)'
-}
 });
 
-// Add the Mapbox Terrain v2 vector tileset. Read more about
-// the structure of data in this tileset in the documentation:
-// https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+// Add the Dog Friendly Parks 
 map.addSource('dog friendly parks', {
 'type': 'geojson',
 'data': dogparks
