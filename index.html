@@ -1,191 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8" />
-<title>Demo: Build a store locator using Mapbox GL JS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
-<link
-href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-rel="stylesheet"
-/>
+<meta charset="utf-8">
+<title>Pet Friendly Roadmap</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
 <style>
-body {
-color: #404040;
-font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-margin: 0;
-padding: 0;
--webkit-font-smoothing: antialiased;
+body { margin: 0; padding: 0; background-color: #303030; font-family: sans-serif; }
+
+.header {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
 }
- 
-* {
-box-sizing: border-box;
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
 }
- 
-.sidebar {
-position: absolute;
-width: 33.3333%;
-height: 100%;
-top: 0;
-left: 0;
-overflow: hidden;
-border-right: 1px solid rgba(0, 0, 0, 0.25);
+
+.header a.logo {
+  font-size: 30px;
+  font-weight: bold;
+  font-family: montserrat;
 }
- 
-.map {
-position: absolute;
-left: 33.3333%;
-width: 66.6666%;
-top: 0;
-bottom: 0;
+
+.header a:hover {
+  background-color: #ddd;
+  color: black;
 }
- 
-h1 {
-font-size: 22px;
-margin: 0;
-font-weight: 400;
-line-height: 20px;
-padding: 20px 2px;
+
+.header a.active {
+  background-color: #006699;
+  color: white;
 }
- 
-a {
-color: #404040;
-text-decoration: none;
+
+.header-right {
+  float: right;
 }
- 
-a:hover {
-color: #101010;
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .header-right {
+    float: none;
+  }
 }
- 
-.heading {
+
+#map-container {
+    position: relative;
+    height: 800px; 
+    width: 100%;
+}
+
+#map {
+    position: relative;
+    height: inherit;
+    width: inherit;
+}
+
+#menu {
 background: #fff;
-border-bottom: 1px solid #eee;
-min-height: 60px;
-line-height: 60px;
-padding: 0 10px;
-background-color: #00853e;
-color: #fff;
+position: relative;
+z-index: 1;
+top: 10px;
+left: 10px;
+border-radius: 3px;
+width: 185px;
+border: 1px solid rgba(0, 0, 0, 0.4);
+font-family: 'Open Sans', sans-serif;
 }
  
-.listings {
-height: 100%;
-overflow: auto;
-padding-bottom: 60px;
-}
- 
-.listings .item {
+#menu a {
+font-size: 20px;
+color: #404040;
 display: block;
-border-bottom: 1px solid #eee;
+margin: 0;
+padding: 0;
 padding: 10px;
 text-decoration: none;
+border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+text-align: center;
 }
  
-.listings .item:last-child {
-border-bottom: none;
-}
-.listings .item .title {
-display: block;
-color: #00853e;
-font-weight: 700;
+#menu a:last-child {
+border: none;d
 }
  
-.listings .item .title small {
-font-weight: 400;
-}
-.listings .item.active .title,
-.listings .item .title:hover {
-color: #8cc63f;
-}
-.listings .item.active {
+#menu a:hover {
 background-color: #f8f8f8;
-}
-::-webkit-scrollbar {
-width: 3px;
-height: 3px;
-border-left: 0;
-background: rgba(0, 0, 0, 0.1);
-}
-::-webkit-scrollbar-track {
-background: none;
-}
-::-webkit-scrollbar-thumb {
-background: #00853e;
-border-radius: 0;
+color: #404040;
 }
  
-.marker {
-border: none;
-cursor: pointer;
-height: 56px;
-width: 56px;
-background-image: url(marker.png);
+#menu a.active {
+background-color: #3887be;
+color: #ffffff;
 }
  
-/* Marker tweaks */
-.mapboxgl-popup {
-padding-bottom: 50px;
-}
- 
-.mapboxgl-popup-close-button {
-display: none;
-}
-.mapboxgl-popup-content {
-font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-padding: 0;
-width: 180px;
-}
-.mapboxgl-popup-content h3 {
-background: #91c949;
-color: #fff;
-margin: 0;
-padding: 10px;
-border-radius: 3px 3px 0 0;
-font-weight: 700;
-margin-top: -15px;
-}
- 
-.mapboxgl-popup-content h4 {
-margin: 0;
-padding: 10px;
-font-weight: 400;
-}
- 
-.mapboxgl-popup-content div {
-padding: 10px;
-}
- 
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
-margin-top: 15px;
-}
- 
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-border-bottom-color: #91c949;
+#menu a.active:hover {
+background: #006699;
 }
 </style>
 </head>
+
 <body>
-<div class="sidebar">
-<div class="heading">
-<h1>THE NEW locations</h1>
+
+<div class="header">
+  <img src="hotel-indigo.jpg" align="left" height="60px" border="1">
+  <a class="logo" href="http://www.druryinns.com" target="_top">Hotel Indigo - Columbus, IN</a>
+  <div class="header-right">
+  <!--  <a class="active" href="#home">Home</a>  -->
+    <a class="active" href="mailto:dugger@duggerdinners.com?subject=Pet Friendly Roadmap">Feedback</a>
+  <!--  <a href="#about">About</a> -->
+  </div>
 </div>
-<div id="listings" class="listings"></div>
+
+<table width=100%>
+	<tr>
+		<td width="30%"><div id="menu" style="width:85%; "></div></td>
+		<td width="67%"><h2 style="color: #F0F0F0; ">PET FRIENDLY ROADMAP</h2><p style="color: #E0E0E0">Welcome to <b>Dugger Dinners' Pet Friendly Roadmap</b> - which is a cool directory for you and your dog of all of the cool places and services that are within a short distance of where you are staying. Use the buttons to the left to toggle off the types of locations that we have researched by Dugger and his team just for you and your four-legged friends. </p></td>
+		<td width="3%">&nbsp;</td>
+	</tr>
+</table>
+<br clear="all">
+<div id="map-container" style="padding: 10px 10px 10px 10px; border:1px solid #C0C0C0; ">
+  <div id="map">
+  </div>
 </div>
-<div id="map" class="map"></div>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
  
-/**
-* Add the map to the page
-*/
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
+
 const map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/light-v10',
-center: [-77.034084142948, 38.909671288923],
+style: 'mapbox://styles/mapbox/streets-v11',
 zoom: 13,
-scrollZoom: false
+center: [-77.034084142948,38.909671288923]
 });
- 
-const stores = 
+
+const food = 
 
 {'type': 'FeatureCollection','features': [
 
@@ -193,193 +157,202 @@ const stores =
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.049766, 38.900772]},'properties': {'phoneFormatted': '(202) 507-8357','phone': '2025078357','address': '2221 I St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 22nd St NW','postalCode': '20037','state': 'D.C.'}},
 
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }},
+
 ]
 };
- 
+
 /**
 * Assign a unique id to each store. You'll use this `id`
 * later to associate each point on the map with a listing
 * in the sidebar.
 */
-stores.features.forEach((store, i) => {
-store.properties.id = i;
+food.features.forEach((foodplace, i) => {
+foodplace.properties.id = i;
 });
- 
-const parks = 
+
+const petsvcs = 
 
 {'type': 'FeatureCollection','features': [
-
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }},
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.0672, 38.90516896]},'properties': {'phoneFormatted': '(202) 337-9338','phone': '2023379338','address': '3333 M St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 34th St NW','postalCode': '20007','state': 'D.C.'}},
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.002583742142, 38.887041080933]},'properties': {'phoneFormatted': '(202) 547-9338','phone': '2025479338','address': '221 Pennsylvania Ave SE','city': 'Washington DC','country': 'United States','crossStreet': 'btwn 2nd & 3rd Sts. SE','postalCode': '20003','state': 'D.C.'}},
 
+]
+};
+
+const dogparks = 
+
+{'type': 'FeatureCollection','features': [
+
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-76.933492720127, 38.99225245786]},'properties': {'address': '8204 Baltimore Ave','city': 'College Park','country': 'United States','postalCode': '20740','state': 'MD'}},
 
 ]
 };
- 
+
 /**
 * Assign a unique id to each store. You'll use this `id`
 * later to associate each point on the map with a listing
 * in the sidebar.
 */
-parks.features.forEach((park, i) => {
-park.properties.id = i;
+dogparks.features.forEach((dogpark, i) => {
+dogpark.properties.id = i;
 });
-
-
-/**
-* Wait until the map loads to make changes to the map.
-*/
+ 
+// Wait until the map has finished loading.
 map.on('load', () => {
-/**
-* This is where your '.addLayer()' used to be, instead
-* add only the source without styling a layer
-*/
-map.addSource('places', {
+// Add a custom vector tileset source. This tileset contains
+// point features representing museums. Each feature contains
+// three properties. For example:
+// {
+//     alt_name: "Museo Arqueologico",
+//     name: "Museo Inka",
+//     tourism: "museum"
+// }
+
+map.addSource('pet friendly restaurants', {
 'type': 'geojson',
-'data': stores
+'data': food
 });
 
-/* 
-map.addSource('places', {
+map.addLayer({
+'id': 'pet friendly restaurants',
+'type': 'circle',
+'source': 'pet friendly restaurants',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible'
+},
+'paint': {
+'circle-radius': 12,
+'circle-color': 'rgba(55,148,179,1)'
+},
+});
+ 
+// Add the Mapbox Terrain v2 vector tileset. Read more about
+// the structure of data in this tileset in the documentation:
+// https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+map.addSource('pet services', {
 'type': 'geojson',
-'data': parks
-}); */
+'data': petsvcs
+});
 
- 
-/**
-* Add all the things to the page:
-* - The location listings on the side of the page
-* - The markers onto the map
-*/
-buildLocationList(stores);
-/* buildLocationList(parks); */
-addMarkers();
+map.addLayer({
+'id': 'pet services',
+'type': 'circle',
+'source': 'pet services',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible',
+},
+'paint': {
+'circle-radius': 15,
+'circle-color': 'rgba(12,24,179,1)'
+}
+});
+
+// Add the Mapbox Terrain v2 vector tileset. Read more about
+// the structure of data in this tileset in the documentation:
+// https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+map.addSource('dog friendly parks', {
+'type': 'geojson',
+'data': dogparks
+});
+
+map.addLayer({
+'id': 'dog friendly parks',
+'type': 'circle',
+'source': 'dog friendly parks',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible',
+},
+'paint': {
+'circle-radius': 15,
+'circle-color': 'rgba(12,24,179,1)'
+}
+});
+
 });
  
-/**
-* Add a marker to the map for every store listing.
-**/
-function addMarkers() {
-/* For each feature in the GeoJSON object above: */
-for (const marker of stores.features) {
-/* Create a div element for the marker. */
-const el = document.createElement('div');
-/* Assign a unique `id` to the marker. */
-el.id = `marker-${marker.properties.id}`;
-/* Assign the `marker` class to each marker for styling. */
-el.className = 'marker';
- 
-/**
-* Create a marker using the div element
-* defined above and add it to the map.
-**/
-new mapboxgl.Marker(el, { offset: [0, -23] })
-.setLngLat(marker.geometry.coordinates)
-.addTo(map);
- 
-/**
-* Listen to the element and when it is clicked, do three things:
-* 1. Fly to the point
-* 2. Close all other popups and display popup for clicked store
-* 3. Highlight listing in sidebar (and remove highlight for all other listings)
-**/
-el.addEventListener('click', (e) => {
-/* Fly to the point */
-flyToStore(marker);
-/* Close all other popups and display popup for clicked store */
-createPopUp(marker);
-/* Highlight listing in sidebar */
-const activeItem = document.getElementsByClassName('active');
-e.stopPropagation();
-if (activeItem[0]) {
-activeItem[0].classList.remove('active');
-}
-const listing = document.getElementById(
-`listing-${marker.properties.id}`
-);
-listing.classList.add('active');
-});
-}
+// After the last frame rendered before the map enters an "idle" state.
+map.on('idle', () => {
+// If these two layers were not added to the map, abort
+if (!map.getLayer('pet friendly restaurants') || !map.getLayer('pet services')) {
+return;
 }
  
-/**
-* Add a listing for each store to the sidebar.
-**/
-function buildLocationList(stores) {
-for (const store of stores.features) {
-/* Add a new listing section to the sidebar. */
-const listings = document.getElementById('listings');
-const listing = listings.appendChild(document.createElement('div'));
-/* Assign a unique `id` to the listing. */
-listing.id = `listing-${store.properties.id}`;
-/* Assign the `item` class to each listing for styling. */
-listing.className = 'item';
+// Enumerate ids of the layers.
+const toggleableLayerIds = ['pet friendly restaurants','dog friendly parks','pet services'];
  
-/* Add the link to the individual listing created above. */
-const link = listing.appendChild(document.createElement('a'));
+// Set up the corresponding toggle button for each layer.
+for (const id of toggleableLayerIds) {
+// Skip layers that already have a button set up.
+if (document.getElementById(id)) {
+continue;
+}
+ 
+// Create a link.
+const link = document.createElement('a');
+link.id = id;
 link.href = '#';
-link.className = 'title';
-link.id = `link-${store.properties.id}`;
-link.innerHTML = `${store.properties.address}`;
+link.textContent = id;
+link.className = 'active';
  
-/* Add details to the individual listing. */
-const details = listing.appendChild(document.createElement('div'));
-details.innerHTML = `${store.properties.city}`;
-if (store.properties.phone) {
-details.innerHTML += ` &middot; ${store.properties.phoneFormatted}`;
-}
+// Show or hide layer when the toggle is clicked.
+link.onclick = function (e) {
+const clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
  
-/**
-* Listen to the element and when it is clicked, do four things:
-* 1. Update the `currentFeature` to the store associated with the clicked link
-* 2. Fly to the point
-* 3. Close all other popups and display popup for clicked store
-* 4. Highlight listing in sidebar (and remove highlight for all other listings)
-**/
-link.addEventListener('click', function () {
-for (const feature of stores.features) {
-if (this.id === `link-${feature.properties.id}`) {
-flyToStore(feature);
-createPopUp(feature);
+const visibility = map.getLayoutProperty(
+clickedLayer,
+'visibility'
+);
+ 
+// Toggle layer visibility by changing the layout object's visibility property.
+if (visibility === 'visible') {
+map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(
+clickedLayer,
+'visibility',
+'visible'
+);
 }
+};
+ 
+const layers = document.getElementById('menu');
+layers.appendChild(link);
 }
-const activeItem = document.getElementsByClassName('active');
-if (activeItem[0]) {
-activeItem[0].classList.remove('active');
-}
-this.parentNode.classList.add('active');
 });
-}
-}
- 
-/**
-* Use Mapbox GL JS's `flyTo` to move the camera smoothly
-* a given center point.
-**/
-function flyToStore(currentFeature) {
-map.flyTo({
-center: currentFeature.geometry.coordinates,
-zoom: 15
+
+
+  /* ******* FUNCTIONALITY FOR POP-UPS OVER MAP ITEMS ***********************/
+  /* Add an event listener that runs when a user clicks on the map element. */
+  map.on('click', (event) => {
+  // If the user clicked on one of your markers, get its information.
+  const features = map.queryRenderedFeatures(event.point, {
+    layers: ['pet friendly restaurants','pet services'] // replace with your layer name
+  });
+  if (!features.length) {
+    return;
+  }
+  const feature = features[0];
+
+  /* Create a popup, specify its options and properties, and add it to the map.  */
+  const popup = new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(feature.geometry.coordinates)
+  .setHTML(
+    `<h3>${feature.properties.phone}</h3><p>${feature.properties.address}</p>`
+  )
+  .addTo(map);
+  
 });
-}
- 
-/**
-* Create a Mapbox GL JS `Popup`.
-**/
-function createPopUp(currentFeature) {
-const popUps = document.getElementsByClassName('mapboxgl-popup');
-if (popUps[0]) popUps[0].remove();
-const popup = new mapboxgl.Popup({ closeOnClick: false })
-.setLngLat(currentFeature.geometry.coordinates)
-.setHTML(
-`<h3>Sweetgreen</h3><h4>${currentFeature.properties.address}</h4>`
-)
-.addTo(map);
-}
 </script>
+ 
 </body>
 </html>
