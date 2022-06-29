@@ -59,7 +59,7 @@ body { margin: 0; padding: 0; background-color: #303030; font-family: sans-serif
 
 #map-container {
     position: relative;
-    height: 800px; 
+    height: 700px; 
     width: 100%;
 }
 
@@ -137,16 +137,16 @@ background: #006699;
   <div id="map">
   </div>
 </div>
- 
+
 <script>
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2Jhcmxvdy1kdWdnZXIiLCJhIjoiY2w0d3BxM29hMWkxMzNpcW51Z3ZsNmh2OCJ9.UoHLNslkQOXjDkOCH9bfHg';
 
 const map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
-zoom: 11,
-center: [-77.034084142948,38.909671288923]
+style: 'mapbox://styles/mapbox/light-v10',
+zoom: 14,
+center: [-77.034084142948,38.900671288923]
 });
 
 map.addControl(new mapboxgl.NavigationControl());
@@ -155,11 +155,11 @@ const food =
 
 {'type': 'FeatureCollection','features': [
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.034084142948, 38.909671288923]},'properties': {'phoneFormatted': '(202) 234-7336','phone': '2022347336','address': '1471 P St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 15th St NW','postalCode': '20005','state': 'D.C.'}},
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.034084142948, 38.909671288923]},'properties': {'name': 'Ronald Reagan Dog-Friendly Pizza','phone': '2022347336','address': '1471 P St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 15th St NW','postalCode': '20005','state': 'D.C.'}},
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.049766, 38.900772]},'properties': {'phoneFormatted': '(202) 507-8357','phone': '2025078357','address': '2221 I St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 22nd St NW','postalCode': '20037','state': 'D.C.'}},
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.049766, 38.900772]},'properties': {'name': 'Abe Lincoln Burgers & Bones','phone': '2025078357','address': '2221 I St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 22nd St NW','postalCode': '20037','state': 'D.C.'}},
 
-/* {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }}, */ 
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'name': 'Jefferson and Sons Deli','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }}, 
 
 ]
 };
@@ -177,9 +177,9 @@ const petsvcs =
 
 {'type': 'FeatureCollection','features': [
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.0672, 38.90516896]},'properties': {'phoneFormatted': '(202) 337-9338','phone': '2023379338','address': '3333 M St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 34th St NW','postalCode': '20007','state': 'D.C.'}},
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.0672, 38.90516896]},'properties': {'name': 'Franklin D for Dog Spa','phone': '2023379338','address': '3333 M St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 34th St NW','postalCode': '20007','state': 'D.C.'}},
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.002583742142, 38.887041080933]},'properties': {'phoneFormatted': '(202) 547-9338','phone': '2025479338','address': '221 Pennsylvania Ave SE','city': 'Washington DC','country': 'United States','crossStreet': 'btwn 2nd & 3rd Sts. SE','postalCode': '20003','state': 'D.C.'}},
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.002583742142, 38.900041080933]},'properties': {'name': 'DC City Emergency Vet','phone': '2025479338','address': '221 Pennsylvania Ave SE','city': 'Washington DC','country': 'United States','crossStreet': 'btwn 2nd & 3rd Sts. SE','postalCode': '20003','state': 'D.C.'}},
 
 ]
 };
@@ -188,7 +188,7 @@ const dogparks =
 
 {'type': 'FeatureCollection','features': [
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-76.933492720127, 38.99225245786]},'properties': {'address': '8204 Baltimore Ave','city': 'College Park','country': 'United States','postalCode': '20740','state': 'MD'}},
+{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.026559, 38.902781]},'properties': {'name': 'Bojangles and Dog Park','address': '1011 K St NW','city': 'Washington','country': 'United States','postalCode': '20001','state': 'DC'}},
 
 ]
 };
@@ -317,7 +317,7 @@ map.on('load', () => {
 			'type': 'Feature',
 			'geometry': {
 			'type': 'Point',
-			'coordinates': [-77.043929, 38.910525]
+			'coordinates': [-77.036674, 38.897606]
 			}
 			}
 			]
@@ -408,7 +408,7 @@ layers.appendChild(link);
   const popup = new mapboxgl.Popup({ offset: [0, -15] })
   .setLngLat(feature.geometry.coordinates)
   .setHTML(
-    `<h3>${feature.properties.phone}</h3><p>${feature.properties.address}</p>`
+    `<h3>${feature.properties.name}</h3><p>${feature.properties.address}</p>`
   )
   .addTo(map);
   
