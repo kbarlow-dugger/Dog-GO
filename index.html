@@ -157,7 +157,7 @@ const food =
 
 {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.049766, 38.900772]},'properties': {'phoneFormatted': '(202) 507-8357','phone': '2025078357','address': '2221 I St NW','city': 'Washington DC','country': 'United States','crossStreet': 'at 22nd St NW','postalCode': '20037','state': 'D.C.'}},
 
-{'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }},
+/* {'type': 'Feature','geometry': {'type': 'Point','coordinates': [-77.043929, 38.910525]},'properties': {'phoneFormatted': '(202) 387-9338','phone': '2023879338','address': '1512 Connecticut Ave NW','city': 'Washington DC','country': 'United States','crossStreet': 'at Dupont Circle','postalCode': '20036','state': 'D.C.' }}, */ 
 
 ]
 };
@@ -203,7 +203,8 @@ dogpark.properties.id = i;
 // Wait until the map has finished loading.
 map.on('load', () => {
 
-	map.LoadImage('https://kbarlow-dugger.github.io/Dog-GO/marker.png',(error, image) => {
+/*
+	map.LoadImage('https://kbarlow-dugger.github.io/Dog-GO/dugger-icon.png',(error, image) => {
 		if (error) throw error;
 		map.addImage('dugger',image);
 	
@@ -233,6 +234,8 @@ map.on('load', () => {
 			}
 		});
 	});
+	
+ */ 	
 
 		// Add Pet Friendly Restaurants data 
 		map.addSource('pet friendly restaurants', {
@@ -292,6 +295,43 @@ map.on('load', () => {
 		'circle-radius': 11,
 		'circle-color': 'rgba(61,114,196,1)'
 		}
+	});
+	
+	map.loadImage(
+		'https://kbarlow-dugger.github.io/Dog-GO/dugger-icon.png',
+		(error, image) => {
+		if (error) throw error;
+ 
+		// Add the image to the map style.
+		map.addImage('cat', image);
+ 
+		// Add a data source containing one point feature.
+		map.addSource('point', {
+			'type': 'geojson',
+			'data': {
+			'type': 'FeatureCollection',
+			'features': [
+			{
+			'type': 'Feature',
+			'geometry': {
+			'type': 'Point',
+			'coordinates': [-77.043929, 38.910525]
+			}
+			}
+			]
+			}
+		});
+ 
+		// Add a layer to use the image to represent the data.
+		map.addLayer({
+			'id': 'points',
+			'type': 'symbol',
+			'source': 'point', // reference the data source
+			'layout': {
+			'icon-image': 'cat', // reference the image
+			'icon-size': 0.25
+			}
+		});
 	});
 });  // end of map.on LOAD 
  
@@ -355,7 +395,7 @@ layers.appendChild(link);
   map.on('click', (event) => {
   // If the user clicked on one of your markers, get its information.
   const features = map.queryRenderedFeatures(event.point, {
-    layers: ['pet friendly restaurants','pet services'] // replace with your layer name
+    layers: ['pet friendly restaurants','pet services', 'dog friendly parks'] // replace with your layer name
   });
   if (!features.length) {
     return;
