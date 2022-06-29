@@ -127,8 +127,8 @@ background: #006699;
 
 <table width=100%>
 	<tr>
-		<td width="30%"><div id="menu" style="width:85%; "></div></td>
-		<td width="67%"><h2 style="color: #F0F0F0; ">PET FRIENDLY ROADMAP v1</h2><p style="color: #E0E0E0">Welcome to <b>Dugger Dinners' Pet Friendly Roadmap</b> - which is a cool directory for you and your dog of all of the cool places and services that are within a short distance of where you are staying. Use the buttons to the left to toggle off the types of locations that we have researched by Dugger and his team just for you and your four-legged friends. </p></td>
+		<td width="30%"><div id="menu" style="width:100%; "></div></td>
+		<td width="67%"><img src="three-markers.png" align="left" height="160"><h2 style="color: #F0F0F0; font-size:180%; ">PET FRIENDLY ROADMAP</h2><p style="color: #E0E0E0">Welcome to <b>Dugger Dinners' Pet Friendly Roadmap</b> - which is a cool directory for you and your dog. It's a resource of all of the great pet-friendly places and services that are within a short distance of where you are staying. Use the buttons to the left to toggle on and off by location type. Use the Feedback button at the top to provide Dugger and his team feedback or more ideas.</p></td>
 		<td width="3%">&nbsp;</td>
 	</tr>
 </table>
@@ -203,73 +203,97 @@ dogpark.properties.id = i;
 // Wait until the map has finished loading.
 map.on('load', () => {
 
-map.loadImage('https://kbarlow-dugger.github.io/Dog-GO/marker.png',(error, image) => {
-if (error) throw error;
+	map.LoadImage('https://kbarlow-dugger.github.io/Dog-GO/marker.png',(error, image) => {
+		if (error) throw error;
+		map.addImage('dugger',image);
+	
+		// Add a data source containing one point feature.
+		map.addSource('points', {
+			'type': 'geojson',
+			'data': {
+			'type': 'FeatureCollection',
+				'features': [
+				{
+				'type': 'Feature',
+				'geometry': {
+				'type': 'Point',
+				'coordinates': [-77.036560,38.897957]
+				}
+				}]			
+				}
+		});
+		
+		map.addLayer({
+			'id': 'points',
+			'type': 'symbol',
+			'source': 'points', // reference the data source
+			'layout': {
+				'icon-image': 'dugger', // reference the image
+				'icon-size': 0.25
+			}
+		});
+	});
 
-// Add the image to the map style.
-map.addImage('green-marker', image);
+		// Add Pet Friendly Restaurants data 
+		map.addSource('pet friendly restaurants', {
+			'type': 'geojson',
+			'data': food
+		});
 
-// Add Pet Friendly Restaurants data 
-//     name: "Museo Inka",
-//     description: "museum"
-
-map.addSource('pet friendly restaurants', {
-'type': 'geojson',
-'data': food
-});
-
-map.addLayer({
-'id': 'pet friendly restaurants',
-'type': 'circle',
-'source': 'pet friendly restaurants',
-'layout': {
-// Make the layer visible by default.
-'visibility': 'visible'
-},
-'paint': {
-'circle-radius': 12,
-'circle-color': 'rgba(55,148,179,1)'
-},
-});
+		map.addLayer({
+			'id': 'pet friendly restaurants',
+			'type': 'circle',
+			'source': 'pet friendly restaurants',
+			'layout': {
+			// Make the layer visible by default.
+			'visibility': 'visible',
+			},
+			'paint': {
+			'circle-radius': 11,
+			'circle-color': 'rgba(0,133,62,1)'
+			}
+		});
  
-// Add the Pet Services items 
-map.addSource('pet services', {
-'type': 'geojson',
-'data': petsvcs
-});
+		// Add the Pet Services items 
+		map.addSource('pet services', {
+			'type': 'geojson',
+			'data': petsvcs
+		});
+		
+		map.addLayer({
+			'id': 'pet services',
+			'type': 'circle',
+			'source': 'pet services',
+			'layout': {
+			// Make the layer visible by default.
+			'visibility': 'visible',
+			},
+			'paint': {
+			'circle-radius': 11,
+			'circle-color': 'rgba(127,0,0,1)'
+			}
+		});
 
-map.addLayer({
-'id': 'pet services',
-'type': 'symbol',
-'source': 'pet services',
-'layout': {
-// Make the layer visible by default.
-'visibility': 'visible',
-'icon-image': 'green-marker',
-},
-});
+	// Add the Dog Friendly Parks 
+	map.addSource('dog friendly parks', {
+		'type': 'geojson',
+		'data': dogparks
+	});
 
-// Add the Dog Friendly Parks 
-map.addSource('dog friendly parks', {
-'type': 'geojson',
-'data': dogparks
-});
-
-map.addLayer({
-'id': 'dog friendly parks',
-'type': 'circle',
-'source': 'dog friendly parks',
-'layout': {
-// Make the layer visible by default.
-'visibility': 'visible',
-},
-'paint': {
-'circle-radius': 15,
-'circle-color': 'rgba(12,24,179,1)'
-}
-});
-
-});
+	map.addLayer({
+		'id': 'dog friendly parks',
+		'type': 'circle',
+		'source': 'dog friendly parks',
+		'layout': {
+		// Make the layer visible by default.
+		'visibility': 'visible',
+		},
+		'paint': {
+		'circle-radius': 11,
+		'circle-color': 'rgba(61,114,196,1)'
+		}
+	});
+});  // end of map.on LOAD 
  
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
